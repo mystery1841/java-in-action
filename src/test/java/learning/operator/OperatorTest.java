@@ -30,4 +30,19 @@ public class OperatorTest {
         assertEquals(16, a);
         assertEquals(14, b);
     }
+
+    @Test
+    public void testBitwiseOperator() {
+        int n = 0b10011001;
+        int fourthBitFromRight = (n & 0b1000) / 0b1000;
+        assertEquals(1,fourthBitFromRight);
+    }
+
+    @Test
+    public void testLeftAndRightBitwiseOperator() {
+        int n = 0b10011001;
+        int fourthBitFromRight = (n & 1<<4) >>4;
+        assertEquals(1,fourthBitFromRight);
+    }
+
 }
