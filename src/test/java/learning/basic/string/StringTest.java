@@ -1,4 +1,4 @@
-package learning.operator;
+package learning.basic.string;
 
 import org.junit.jupiter.api.Test;
 
