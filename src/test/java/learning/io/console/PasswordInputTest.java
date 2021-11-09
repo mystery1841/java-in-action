@@ -1,4 +1,4 @@
-package learning.basic.console;
+package learning.io.console;
 
 import java.io.Console;
 

@@ -1,4 +1,4 @@
-package learning.basic.console;
+package learning.io.console;
 
 import org.junit.jupiter.api.Test;
 

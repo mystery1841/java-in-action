@@ -7,6 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OperatorTest {
 
     @Test
+    public void testMod() {
+        assertEquals(1, 7 % 3);
+        assertEquals(1, 7 % -3);
+        assertEquals(-1, -7 % 3);
+        assertEquals(-1, -7 % -3);
+    }
+
+    @Test
     public void testAssignment() {
         int x = 0;
         x += 3.5;//(int)(x+3.5)

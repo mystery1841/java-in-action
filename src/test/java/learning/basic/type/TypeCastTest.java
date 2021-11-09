@@ -12,4 +12,13 @@ public class TypeCastTest {
         int nx = (int) x;
         assertEquals(9, nx);
     }
+
+    @Test
+    public void testByteCalculation() {
+        byte b1 = 2;
+        byte b2 = -3;
+        byte b3 = (byte) (b1 + b2);
+        assertEquals(-1, b3);
+    }
+
 }

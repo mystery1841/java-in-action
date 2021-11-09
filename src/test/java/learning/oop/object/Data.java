@@ -1,5 +1,7 @@
 package learning.oop.object;
 
+import learning.oop.Employee;
+
 public class Data {
     public byte by;
     public short s;

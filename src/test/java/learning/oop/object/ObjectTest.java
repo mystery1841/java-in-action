@@ -1,5 +1,6 @@
 package learning.oop.object;
 
+import learning.oop.Employee;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
