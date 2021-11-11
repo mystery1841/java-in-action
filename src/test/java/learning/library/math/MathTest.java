@@ -54,8 +54,8 @@ public class MathTest {
 
     @Test
     public void testRound() {
-        double roundedDown = Math.round(23.445);
-        double roundedUp = Math.round(23.545);
+        long roundedDown = Math.round(23.445);
+        long roundedUp = Math.round(23.545);
         assertEquals(23, roundedDown);
         assertEquals(24, roundedUp);
     }
