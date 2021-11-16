@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 
-public class Employee {
+public class Employee implements Comparable<Employee>, Cloneable {
     private String name;
     private double salary;
     private LocalDate hireDay;
@@ -81,5 +81,10 @@ public class Employee {
                 + "]";
     }
 
+
+    @Override
+    public int compareTo(Employee other) {
+        return Double.compare(salary, other.salary);
+    }
 
 }
