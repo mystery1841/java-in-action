@@ -14,4 +14,11 @@ public class PolymorphismTest {
         assertThrows(ArrayStoreException.class, () ->
                 staff[0] = new Employee("Harry Hacker", 10, 1, 1, 1));
     }
+
+    @Test
+    public void testDynamicBindingWithMethodOverride() {
+        SupClass aClass = new SubClass();
+        String s = aClass.getName("String");
+        assertEquals("Object", s);
+    }
 }
