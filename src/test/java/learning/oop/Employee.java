@@ -1,6 +1,7 @@
 package learning.oop;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -8,7 +9,7 @@ public class Employee implements Comparable<Employee>, Cloneable {
     private String name;
     private double salary;
     private LocalDate hireDay;
-    private final StringBuilder evaluations;
+    private final StringBuilder evaluations = new StringBuilder();
     private static int nextId = 1;
     private int id = assignId();
 
@@ -16,7 +17,10 @@ public class Employee implements Comparable<Employee>, Cloneable {
         name = n;
         salary = s;
         hireDay = LocalDate.of(year, month, day);
-        evaluations = new StringBuilder();
+    }
+
+    public Employee(String n) {
+        this.name = n;
     }
 
     public String getName() {
@@ -87,4 +91,9 @@ public class Employee implements Comparable<Employee>, Cloneable {
         return Double.compare(salary, other.salary);
     }
 
+    @Override
+    public Employee clone() throws CloneNotSupportedException {
+        return (Employee) super.clone();
+
+    }
 }

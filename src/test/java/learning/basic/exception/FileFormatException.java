@@ -1,4 +1,4 @@
-package learning.debug.exception;
+package learning.basic.exception;
 
 import java.io.IOException;
 

@@ -18,6 +18,7 @@ public class MergeFunctionTest {
         assertEquals(4, result);
     }
 
+    @Test
     public void testFunctionCompose() {
         Function<Integer, Integer> f = x -> x + 1;
         Function<Integer, Integer> g = x -> x * 2;
