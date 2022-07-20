@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<config>
+    <entry id="title">
+        <font>
+            <name>Helvetica</name>
+            <size>36</size>
+        </font>
+    </entry>
+
+</config>

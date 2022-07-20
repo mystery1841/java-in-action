@@ -3,6 +3,7 @@ package learning.library.i18n;
 import org.junit.jupiter.api.Test;
 
 import java.text.MessageFormat;
+import java.util.Base64;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -24,6 +25,5 @@ public class MessageFormatTest {
         assertEquals("5 houses",result3);
         assertEquals("no houses",result4);
         assertEquals("10 houses",result5);
-        
     }
 }
