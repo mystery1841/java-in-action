@@ -66,7 +66,11 @@ public class CreationDocumentTest {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
-        Element rootElement = doc.createElement(rootName);
+        String namespace = "http://www.w3.org/2000/svg";
+        Element rootElement = doc.createElementNS(namespace,rootName);
+
+
+        rootElement.setAttributeNS(namespace,"luck","123");
         Element childElement = doc.createElement(childName);
         Text textNode = doc.createTextNode(textContents);
         doc.appendChild(rootElement);
@@ -80,5 +84,15 @@ public class CreationDocumentTest {
         out.setEncoding("UTF-8");
         out.setByteStream(Files.newOutputStream(path));
         ser.write(doc, out);
+    }
+
+    public void testNamespaceAware() throws ParserConfigurationException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+        String namespace = "http://www.w3.org/2000/svg";
+        Element rootElement = doc.createElementNS(namespace, "svg");
+        Element svgElement = doc.createElementNS(namespace, "svg:svg");
     }
 }

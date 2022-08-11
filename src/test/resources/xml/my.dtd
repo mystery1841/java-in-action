@@ -1,0 +1,6 @@
+<!ELEMENT config (entry)>
+        <!ELEMENT entry (font)>
+        <!ELEMENT font (name,size)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT size (#PCDATA)>
+<!ATTLIST entry id CDATA #REQUIRED>

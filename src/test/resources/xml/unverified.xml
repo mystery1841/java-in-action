@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE config PUBLIC "my" "file:my.dtd">
+<config>
+    <entry id="title">
+        <font>
+            <name>Helvetica</name>
+            <size>36</size>
+        </font>
+    </entry>
+</config>
