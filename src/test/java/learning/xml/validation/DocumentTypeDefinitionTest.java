@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DocumentTypeDefinitionTest {
 
     @Test
-    public void parsePublicIdentifier() throws ParserConfigurationException {
+    public void testParsePublicIdentifier() throws ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setValidating(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
