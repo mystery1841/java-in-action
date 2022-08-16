@@ -8,6 +8,7 @@ import org.w3c.dom.Text;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,8 +18,11 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -69,8 +73,6 @@ public class CreationDocumentTest {
         Document doc = builder.newDocument();
         String namespace = "http://www.w3.org/2000/svg";
         Element rootElement = doc.createElementNS(namespace, rootName);
-
-
         rootElement.setAttributeNS(namespace, "luck", "123");
         Element childElement = doc.createElement(childName);
         Text textNode = doc.createTextNode(textContents);
@@ -113,5 +115,18 @@ public class CreationDocumentTest {
         writer.writeEndDocument();
         writer.close();
         out.close();
+    }
+
+    @Test
+    public void testXMLTransform() throws TransformerException, ParserConfigurationException, IOException, SAXException {
+        InputStream styleSheet = getClass().getClassLoader().getResourceAsStream("xml/style.xml");
+        Source styleSource = new StreamSource(styleSheet);
+        Transformer t = TransformerFactory.newInstance().newTransformer(styleSource);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        InputStream in = getClass().getClassLoader().getResourceAsStream("xml/employee.xml");
+        File file = new File("C:\\Text\\test.html");
+        Document doc = builder.parse(in);
+        t.transform(new DOMSource(doc), new StreamResult(file));
     }
 }
