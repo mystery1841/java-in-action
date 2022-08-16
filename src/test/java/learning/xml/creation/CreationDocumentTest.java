@@ -8,6 +8,7 @@ import org.w3c.dom.Text;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
@@ -128,5 +129,16 @@ public class CreationDocumentTest {
         File file = new File("C:\\Text\\test.html");
         Document doc = builder.parse(in);
         t.transform(new DOMSource(doc), new StreamResult(file));
+    }
+
+    @Test
+    public void testXMLTransformSAXSource() throws TransformerException, ParserConfigurationException, IOException, SAXException {
+        InputStream styleSheet = getClass().getClassLoader().getResourceAsStream("xml/style.xml");
+        Source styleSource = new StreamSource(styleSheet);
+        Transformer t = TransformerFactory.newInstance().newTransformer(styleSource);
+        InputStream in = new FileInputStream(new File("C:\\Text\\employee.txt"));
+        File file = new File("C:\\Text\\test2.html");
+        XMLReader reader = new EmployeeReader();
+        t.transform(new SAXSource(reader, new InputSource(in)), new StreamResult(file));
     }
 }
