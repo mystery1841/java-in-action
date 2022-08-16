@@ -13,13 +13,14 @@ import org.xml.sax.XMLReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -67,10 +68,10 @@ public class CreationDocumentTest {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.newDocument();
         String namespace = "http://www.w3.org/2000/svg";
-        Element rootElement = doc.createElementNS(namespace,rootName);
+        Element rootElement = doc.createElementNS(namespace, rootName);
 
 
-        rootElement.setAttributeNS(namespace,"luck","123");
+        rootElement.setAttributeNS(namespace, "luck", "123");
         Element childElement = doc.createElement(childName);
         Text textNode = doc.createTextNode(textContents);
         doc.appendChild(rootElement);
@@ -94,5 +95,23 @@ public class CreationDocumentTest {
         String namespace = "http://www.w3.org/2000/svg";
         Element rootElement = doc.createElementNS(namespace, "svg");
         Element svgElement = doc.createElementNS(namespace, "svg:svg");
+    }
+
+    @Test
+    public void testStAXWriteDocument() throws IOException, XMLStreamException {
+        File file = new File("C:\\Text\\test3.xml");
+        PrintWriter out = new PrintWriter(file, StandardCharsets.UTF_8);
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        XMLStreamWriter writer = factory.createXMLStreamWriter(out);
+        writer.writeStartDocument(StandardCharsets.UTF_8.name(), "1.0");
+        writer.writeStartElement("xml");
+        writer.writeAttribute("hello", "world");
+        writer.writeStartElement("name");
+        writer.writeCharacters("maki");
+        writer.writeEndElement();
+        writer.writeEndElement();
+        writer.writeEndDocument();
+        writer.close();
+        out.close();
     }
 }
