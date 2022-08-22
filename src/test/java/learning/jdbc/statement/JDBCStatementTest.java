@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,5 +76,45 @@ public class JDBCStatementTest {
         }
         assertEquals(20, price);
         assertEquals("Study in Scarlet", title);
+    }
+
+    @Test
+    public void testSQLEscapeWithTimeFormat() throws SQLException {
+        String sql = "CREATE TABLE BooksAuthors(Name VARCHAR(100),DieDate DATE)";
+        try(Statement statement = conn.createStatement();) {
+            statement.executeUpdate(sql);
+            sql = "INSERT INTO BooksAuthors VALUES ('Conan Doyle',{d '1930-07-07'})";
+            statement.executeUpdate(sql);
+            sql = "SELECT Name,DieDate FROM BooksAuthors";
+            ResultSet resultSet = statement.executeQuery(sql);
+            String name = null;
+            Date date = null;
+            while (resultSet.next()) {
+                name = resultSet.getString(1);
+                date = resultSet.getDate(2);
+            }
+            assertEquals("Conan Doyle", name);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            assertEquals("1930-07-07", format.format(date));
+        } finally {
+            sql = "DROP TABLE BooksAuthors";
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sql);
+        }
+    }
+
+    @Test
+    public void testSQLEscapeWithLikeClause() throws SQLException {
+        String sql = "INSERT INTO Books VALUES('099','Study_in_Scarlet',20,'0201')";
+        try(Statement statement = conn.createStatement();) {
+            statement.executeUpdate(sql);
+            sql = "SELECT Title FROM Books WHERE Title LIKE '%!_%' {escape '!'}";
+            ResultSet resultSet = statement.executeQuery(sql);
+            String title = null;
+            while (resultSet.next()) {
+                title = resultSet.getString(1);
+            }
+            assertEquals("Study_in_Scarlet", title);
+        }
     }
 }

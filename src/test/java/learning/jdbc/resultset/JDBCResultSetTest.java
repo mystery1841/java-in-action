@@ -54,18 +54,17 @@ public class JDBCResultSetTest {
     @Test
     public void testReadBlob() throws SQLException, IOException, NoSuchAlgorithmException {
         Blob coverBlob = conn.createBlob();
-        int offset = 1;
-        OutputStream out = coverBlob.setBinaryStream(offset);
-        InputStream in = getClass().getClassLoader().getResourceAsStream("java-logo.png");
-        assertNotNull(in);
-        MessageDigest digest1 = MessageDigest.getInstance("MD5");
+        OutputStream out = coverBlob.setBinaryStream(1);
+        InputStream javaLogo = getClass().getClassLoader().getResourceAsStream("java-logo.png");
+        assertNotNull(javaLogo);
+        MessageDigest digest = MessageDigest.getInstance("MD5");
         byte[] bytes = new byte[1024];
         int i;
-        while ((i = in.read(bytes)) != -1) {
+        while ((i = javaLogo.read(bytes)) != -1) {
             out.write(bytes, 0, i);
-            digest1.update(bytes, 0, i);
+            digest.update(bytes, 0, i);
         }
-        byte[] expectDigest = digest1.digest();
+        byte[] expectDigest = digest.digest();
         PreparedStatement statement = conn.prepareStatement("INSERT INTO Books VALUES ('001','Study in Scarlet',20,'0201',?)");
         statement.setBlob(1, coverBlob);
         int result = statement.executeUpdate();
@@ -80,17 +79,40 @@ public class JDBCResultSetTest {
             blob = resultSet.getBlob(2);
         }
         assertEquals("Study in Scarlet", title);
-
         assertNotNull(blob);
-        InputStream image = blob.getBinaryStream();
-        MessageDigest digest2 = MessageDigest.getInstance("MD5");
-        byte[] imageArray = new byte[1024];
-        int ch;
-        while ((ch = image.read(imageArray)) != -1) {
-            digest2.update(imageArray, 0, ch);
+        InputStream in = blob.getBinaryStream();
+        while ((i = in.read(bytes)) != -1) {
+            digest.update(bytes, 0, i);
         }
-        byte[] digestResult = digest2.digest();
+        byte[] digestResult = digest.digest();
         assertArrayEquals(expectDigest, digestResult);
         conn.commit();
+    }
+
+    public void testMultipleResultSet() throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("INSERT INTO Books VALUES ('001','Study in Scarlet',20,'0201',?)");
+        statement.setBlob(1, (Blob) null);
+        int result = statement.executeUpdate();
+        assertEquals(1, result);
+        String sql = "SELECT Title,Cover FROM Books ; SELECT Title,Cover FROM Books";
+        Statement stat = conn.createStatement();
+        String name = null;
+        String name2 = null;
+        boolean isResult = stat.execute(sql);
+        if (isResult) {
+            ResultSet r = statement.getResultSet();
+            while (r.next()) {
+                name = r.getString(1);
+            }
+        }
+        isResult = stat.getMoreResults();
+        if (isResult) {
+            ResultSet r = statement.getResultSet();
+            while (r.next()) {
+                name2 = r.getString(1);
+            }
+        }
+        assertEquals("Study in Scarlet",name);
+        assertEquals("Study in Scarlet",name2);
     }
 }
