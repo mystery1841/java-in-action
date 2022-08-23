@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<dataset>
+    <books title="Study in Scarlet"
+           price="20" publisher_id="0201" />
+</dataset>
