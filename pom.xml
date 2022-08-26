@@ -33,7 +33,6 @@
             <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>

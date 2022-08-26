@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<dataset>
+    <books title="Study in Scarlet"
+           price="30" publisher_id="0201" />
+    <books title="Four signatures"
+           price="19" publisher_id="0471" />
+</dataset>
