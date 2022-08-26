@@ -8,6 +8,7 @@ import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -96,6 +97,16 @@ public class TransactionTest extends DBTestCase {
         ITable filteredTable = DefaultColumnFilter.includedColumnsTable(actualTable,
                 expectedTable.getTableMetaData().getColumns());
         Assertion.assertEquals(expectedTable, filteredTable);
+    }
+
+    public void testBatchUpdate() throws SQLException {
+        Statement stat = conn.createStatement();
+        stat.addBatch("UPDATE Books SET Price = 10 WHERE Title='Study in Scarlet'");
+        stat.addBatch("UPDATE Books SET Price = 100 WHERE Title='Four signatures'");
+        int[] counts = stat.executeBatch();
+        assertEquals(2, counts.length);
+        assertEquals(1, counts[0]);
+        assertEquals(1, counts[1]);
     }
 
     @Override
