@@ -8,14 +8,12 @@ import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
-import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.sql.*;
 
 public class TransactionTest extends DBTestCase {
     private Connection conn;
-
 
     public TransactionTest(String name) {
         super(name);
@@ -25,6 +23,7 @@ public class TransactionTest extends DBTestCase {
                 "jdbc:derby:memory:COREJAVA;create=true");
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "sa");
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "");
+
     }
 
     protected DatabaseOperation getSetUpOperation() throws Exception {
